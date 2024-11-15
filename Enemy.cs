@@ -45,24 +45,17 @@ public class Enemy : MonoBehaviour
                 movingBack = false;
             }
         }
-
-        if(movingBack)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, -targetPosition, speed * Time.deltaTime);
-            if(transform.position == -startPosition)
-            {
-                movingBack = false;
-            }
-        }
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, -startPosition, speed * Time.deltaTime);
-            if (transform.position == -startPosition)
+            if (transform.position == startPosition)
             {
                 movingForward = false;
                 movingBack = true;
             }
+
+        if(movingBack)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, -startPosition, speed * Time.deltaTime);
         }
+
     }
-}
+}       
 
