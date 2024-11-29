@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private Enemy enemy;
     void Start()
     {
+        lvl = FindObjectOfType<LvlManager>();
         rb = gameObject.GetComponent<Rigidbody2D>();
         jumpForce = Mathf.Sqrt(2 * jumpDistance * g * rb.gravityScale);
     }
@@ -45,8 +46,20 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("finish"))
         {
-            lvl.NextLvl();
-        }
+            //lvl.NextLvl();
+            if (collision?.gameObject != null && collision.gameObject.CompareTag("finish"))
+            {   
+        // Check if lvl and NextLvl are not null
+            if (lvl != null)
+            {
+                lvl.NextLvl();
+            }
+            else
+            {
+                Debug.LogError("lvl is null. Ensure it is assigned in the Inspector or via script.");
+            }
+            }
+        }   
         if(collision.gameObject.CompareTag("spike"))
         {
             playerHp--;

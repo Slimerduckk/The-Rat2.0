@@ -14,12 +14,11 @@ public class LvlManager : MonoBehaviour
     void Start()
     {
         currentLvl = SceneManager.GetActiveScene().buildIndex;
-        //Invoke(nameof(StartGame), 5);
     }
     public void NextLvl()
     {
-        hintText.SetText(loadScreenHints[Random.Range(0, loadScreenHints.Length-1)]);
-        panel.SetActive(true);
+        //hintText.SetText(loadScreenHints[Random.Range(0, loadScreenHints.Length-1)]);
+        //panel.SetActive(true);
         Invoke(nameof(LoadLvl),3);
 
     }
@@ -30,12 +29,12 @@ public class LvlManager : MonoBehaviour
         {
             hintText.SetText("Thanks for playing my game!");
             panel.SetActive(true);
-            Invoke(nameof(StartGame), 6);
+            Invoke(nameof(StartGame), 3);
         }
         SceneManager.LoadScene(currentLvl);
     }
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 }
