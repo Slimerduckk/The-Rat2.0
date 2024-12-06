@@ -7,14 +7,21 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int playerHp = 5;
+    private float horizontalValue;
     [SerializeField] float speed = 5;
     [SerializeField] float jumpDistance = 2f;
+    [SerializeField] private TrailRenderer trailRenderer;
     const int g = 10;
+    //public bool canMove;
     float jumpForce;
     Rigidbody2D rb;
+    private bool isGrounded; 
     bool isJump = false;
     LvlManager lvl;
     [SerializeField]int attack = 2;
+    private float dashForce = 25f;
+    private int dashCounter = 0;
+    private float dashTime = 0.2f;
     private Enemy enemy;
     void Start()
     {
@@ -25,6 +32,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        horizontalValue = Input.GetAxis("Horizontal");
         float deltaX = Input.GetAxis("Horizontal");
         rb.linearVelocity = new Vector2(speed * deltaX, rb.linearVelocity.y);
         if (!isJump && Input.GetKey(KeyCode.Space))
@@ -37,6 +45,26 @@ public class Player : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if(Input.GetKey(KeyCode.O))
+        {
+            Dash();
+            Debug.Log("Skill issue");
+        }
+    }
+
+    private void Dash()
+    {
+        dashCounter++;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+        Vector2 dashDirection = new Vector2(horizontalValue,0).normalized;
+        rb.linearVelocity = dashDirection * dashForce;
+        trailRenderer.emitting = true;
+        Invoke("enableCharacterMove", dashTime);
+    }
+    private void enableCharacterMove()
+    {
+        trailRenderer.emitting = false;
+        rb.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
